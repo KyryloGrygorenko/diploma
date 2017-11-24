@@ -1,0 +1,53 @@
+
+
+<h1>Articles by  Tag# <?=$tag?></h1>
+<hr>
+
+
+
+
+<div class="row" id='js-books'>
+    <div class="col-sm-6 col-md-4" style='display:none' id='js-book-item-tpl'>
+      <div class="thumbnail book-item">
+        <img src=" alt="">
+        <div class="caption">
+          <h3></h3>
+          <p></p>
+          <p>
+              <a href="#" class="btn btn-primary" role="button">Read this article</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    
+    <?php foreach ($articles as $article) : ?>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail book-item">
+            <?php $category_id= $article->getCategoryId();?>
+
+            <?php if(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$article->getImg() . '.jpg' )){ ?>
+
+                <img src="/img/<?=$category_id;?>/<?=$article->getImg();?>.jpg" alt="">
+            <?php } elseif(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$article->getImg(). '.jpeg' )){ ?>
+            <img src="/img/<?=$category_id;?>/<?=$article->getImg();?>.jpeg" alt="">
+            <?php } else{?>
+                <img src="/img/<?=$category_id;?>/default.jpeg" alt="">
+                <img src="/img/<?=$category_id;?>/default.jpg" alt="">
+            <?php } ?>
+
+
+          <div class="caption">
+            <h3><?=$article->getTitle();?></h3>
+            <p>
+                <a href="/politics/articles/?article_id=<?=$article->getId();?>&amp;category_id=<?=$category_id?>" class="btn btn-primary" role="button">Read this article</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    <?php endforeach ?>
+    
+</div>
+
+
+

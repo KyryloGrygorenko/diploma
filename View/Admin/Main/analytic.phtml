@@ -1,0 +1,79 @@
+<h1>Analytical articles</h1>
+<hr>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <?php foreach ($pagination->buttons as $button) :?>
+            <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+                <?php if ($button->isActive) : ?>
+
+                    <a href="/analytics?page=<?=$button->page?>"><?=$button->text?></a>
+                <?php else : ?>
+                    <span aria-hidden="true"><?=$button->text?></span>
+                <?php endif ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</nav>
+
+
+<div class="row" id='js-books'>
+    <div class="col-sm-6 col-md-4" style='display:none' id='js-book-item-tpl'>
+        <div class="thumbnail book-item">
+            <img src=" alt="">
+            <div class="caption">
+                <h3></h3>
+                <p></p>
+                <p>
+                    <a href="#" class="btn btn-primary" role="button">Read this article</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <?php foreach ($latest_analytic_articles as $latest_analytic_article) : ?>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail book-item">
+                <?php $category_id=$latest_analytic_article->getCategoryId();?>
+
+                <?php if(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$latest_analytic_article->getImg() . '.jpg' )){ ?>
+
+                    <img src="/img/<?=$category_id;?>/<?=$latest_analytic_article->getImg();?>.jpg" alt="">
+                <?php } elseif(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$latest_analytic_article->getImg(). '.jpeg' )){ ?>
+                    <img src="/img/<?=$category_id;?>/<?=$latest_analytic_article->getImg();?>.jpeg" alt="">
+                <?php } else{?>
+                    <img src="/img/<?=$category_id;?>/default.jpeg" alt="">
+                    <img src="/img/<?=$category_id;?>/default.jpg" alt="">
+                <?php } ?>
+
+
+                <div class="caption">
+                    <h3><?=$latest_analytic_article->getTitle();?></h3>
+                    <p>
+                        <a href="/politics/articles/?article_id=<?=$latest_analytic_article->getId();?>&amp;category_id=<?=$category_id?>" class="btn btn-primary" role="button">Read this article</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+
+</div>
+
+<button type='button' class='btn btn-lg btn-primary' id='js-load-books' data-offset='10' data-count='10'>Load more books</button>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <?php foreach ($pagination->buttons as $button) :?>
+            <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+                <?php if ($button->isActive) : ?>
+                    <a href="/analytics?page=<?=$button->page?>"><?=$button->text?></a>
+                <?php else : ?>
+                    <span aria-hidden="true"><?=$button->text?></span>
+                <?php endif ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</nav>
+
+
+

@@ -1,0 +1,25 @@
+
+<div class="container.slider ">
+    <div class="starter-template">
+        <div style="margin: 20px auto; max-width: 1000px; ">
+            <ul class="bxslider">
+                <?php foreach ($latest_articles as $latest_article) : ?>
+                    <li>
+                        <div>
+                            <?php if(file_exists(WEBROOT . 'img' .DS .$latest_article->getImg() )){ ?>
+                                <img src="/img/<?=$latest_article->getImg();?>" class="img-thumbnail" alt="">
+                            <?php } elseif(file_exists(WEBROOT . 'img' .DS .$latest_article->getImg() )){ ?>
+                                <img src="/img/<?=$latest_article->getImg();?>" class="img-thumbnail" alt="">
+                            <?php } else{?>
+                                <img src="/img/default.jpeg" class="img-thumbnail" alt="">
+                                <img src="/img/default.jpg" class="img-thumbnail" alt="">
+                            <?php } ?>
+                        </div>
+                        <div><h3><?=$latest_article->getTitle()?></h3></div>
+                        <a class="btn btn-primary" href="/articles/?article_id=<?=$latest_article->getId()?>&amp;category_id=<?=$latest_article->getCategoryId()?>">Read</a>
+                    </li>
+                <?php endforeach;?>
+            </ul>
+        </div>
+    </div>
+</div>

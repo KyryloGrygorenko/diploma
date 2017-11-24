@@ -1,0 +1,39 @@
+
+
+    <form method='post'>
+
+        <h1>Banners</h1>
+        <h3> (You can change the banner and also upload a new one.)</h3>
+        <br>
+
+
+        <h3>Chose the left banner</h3>
+        <br>
+        <div style="max-height: 620px;  overflow-x: scroll; " >
+            <?php foreach ($all_banners as $banner){?>
+                <input type = "image"  disabled value=""  src = "<?=$banner->getImg();?>" width="160px" height="600px"/>
+                <input type="radio" name="left-banner" value="<?=$banner->getId()?>" />
+            <?php }?>
+        </div>
+        <h3>Chose the right banner</h3>
+        <br>
+        <div style="max-height: 620px;  overflow: scroll" >
+            <?php foreach ($all_banners as $banner){?>
+                <input type = "image"  disabled value=""  src = "<?=$banner->getImg();?>" width="160px" height="600px"/>
+                <input type="radio" name="right-banner" value="<?=$banner->getId()?>" />
+            <?php }?>
+        </div>
+        <h3> <button type="submit">Save changes</button></h3>
+
+    </form>
+    <br>
+    <br>
+    <br>
+    <h3>Upload new banner to the server </h3>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="document" >
+        <input name="link" value=""/>   Link.
+        <button>Upload</button>
+    </form>
+
+

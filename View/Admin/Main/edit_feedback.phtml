@@ -1,0 +1,38 @@
+
+
+
+
+<table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;">
+
+    <thead>
+    <tr>
+        <th>Feedback author</th>
+        <th>Feedback text</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($allFeedbacks as $Feedback) : ?>
+            <tr>
+                <td><?=$Feedback->getAuthor()?></td>
+                <td><?=$Feedback->getMessage()?></td>
+            </tr>
+            <tr>
+                <form method='post'>
+                    <td></td>
+                    <td><input type="text" name="feedback_message" value="<?=$Feedback->getMessage()?>" class="form-control"/></td>
+                    <input name="id" type="hidden"  value="<?=$Feedback->getId()?>">
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-success btn-sm" aria-label="Left Align">
+                             <span class="glyphicon glyphicon-pencil" aria-hidden="true">CHANGE </span>
+                            </button>
+
+                        </form>
+                    </td>
+                </form>
+            </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+

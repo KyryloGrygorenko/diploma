@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+<style>
+    input {
+        display:block;
+    }
+</style>
+<body>
+
+<h1>AJAX Contact form</h1>
+<a href="index.html">Go to list</a>
+<hr/>
+
+<div id="form">
+    <input type="text" name="name" id="name" placeholder="id"/>
+    <input type="email" name="email" id="email" placeholder="email"/>
+    <input type="text" name="phone" id="phone" placeholder="phone"/>
+    <textarea name="message" id="message" placeholder="message"></textarea>
+    <input type="button" id="submit-btn" value="Go"/>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#submit-btn').click(function() {
+
+            var params = $('input, textarea').not("input[type='submit']").serializeArray();
+
+            $.post('post.php', params).done(function(data) {
+                alert(data);
+            });
+
+        });
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<table class="table table-striped books-list-table" >
+    <tr>
+        <td>
+            <div class="row">
+                <h1>Add new article:</h1>
+                <form method='post'>
+                    Article title
+                    <input type="text" name="article_title" value=""  class="form-control"/>
+                    <br>
+                    Article Text
+                    <textarea name="article_text" value="" class="form-control" ></textarea>
+                    <br>
+                    Category
+                    <select class="form-control" name="article_category_id" value="">
+                        <?php foreach ($categories_names_ids as $categories_names_id):?>
+                            <option><?=$categories_names_id->getCategoryId();?> <?=$categories_names_id->getCategoryName();?></option>
+                        <?php endforeach;?>
+                    </select>
+                    <br>
+                    tags (please use space between tags)
+                    <input type="text" name="article_tags" value="" class="form-control"/>
+                    <br>
+                    Img
+                    <br>
+                    <div style="max-height: 300px; overflow: scroll" >
+                        <?php foreach ($all_images as $image):?>
+
+
+                            <?php if(file_exists(WEBROOT . 'img' .DS .$image)) { ?>
+                                <input type = "image"  disabled value=""  src = "/img/<?=$image?>" width="100px" height="65px"/>
+                                <input type="radio" name="img" value="<?=$image?>" >
+                            <?php } else{?>
+
+                                <input type = "image" name="img" disabled value="<?=$image?>" src = "/img/default.jpeg" width="100px" height="65px"/>
+                            <?php } ?>
+                        <?php endforeach;?>
+                    </div>
+
+
+<!--                    <select class="form-control" name="img" value="">-->
+<!--                        --><?php //foreach ($all_images as $image):?>
+<!--                            <option>--><?//=$image;?><!--</option>-->
+<!--                        --><?php //endforeach;?>
+<!--                    </select>-->
+
+
+                    <br>
+
+
+
+                    <br>
+                    Article analytic text
+                    <textarea name="article_analytics" value="" class="form-control" ></textarea>
+                    <br>
+                    <h3> <button type="submit">Add article</button></h3>
+
+
+                </form>
+                <br>
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    <h3>Upload new image on server </h3>
+                    <input type="file" name="document" >
+                    <button>Upload</button>
+                </form>
+
+            </div>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+

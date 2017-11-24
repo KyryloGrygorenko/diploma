@@ -1,0 +1,97 @@
+
+
+<h1><?php echo $categories_names[$category_id-1];?></h1>
+<h2><?=$article->gettitle();?></h2>
+
+
+
+<?php if(file_exists(WEBROOT . 'img' .DS  .$article->getImg() )){ ?>
+
+    <img src="/img/<?=$article->getImg();?>" class="img-thumbnail" alt="">
+<?php } else{?>
+
+    <img src="/img/<?=$article->getImg();?>" class="img-thumbnail" alt="">
+
+<?php } ?>
+
+
+<?=$article->gettext();?>
+<h2>Analytic for this article</h2>
+
+<?php if (\Library\Session::has('user')) {
+       if($article->getAnalytics() ) {
+            echo $article->getAnalytics();
+            echo '<br><br><br>';
+        }else{
+
+           echo '<h3> There is no analytic for this article </h3>';
+       }
+    }else{
+    $analytic= $article->getAnalytics();
+        if($analytic){
+        $analytic=explode('.',$analytic);
+        for ($i=0; $i<=4; $i++){
+            echo $analytic[$i]. '. ';
+        }
+        echo '<h1> ... </h1>';
+        echo '<h3> Please <a href="/login"> login </a>  to read more </h3>';
+        }else{
+
+            echo '<h3> There is no analytic for this article </h3>';
+        }
+    }
+?>
+
+
+
+
+
+
+<?php $tags=explode(' ',$article->getTags()) ;?>
+<?php foreach ($tags as $tag){?>
+   <a href="/politics/tags/?tag=<?=$tag?>"><p class="btn btn-primary"><?=$tag;?></p></a>
+
+
+<?php };?>
+<br>
+<br>
+<br>
+
+<p class="btn btn-primary">  <?= $article->getArticleReadNow();?> people are reading this article right now</p>
+<p class="btn btn-primary">  This article was read <?= $article->getArticle_views_count()?>  times.</p>
+
+<h1>Comment</h1>
+
+<div id='message'></div>
+<?=$Session_flash?>
+<form method='post' id='feedback-form'>
+    <textarea class="form-control" placeholder="Your comment" name="message"><?=$form->message ?></textarea>
+    <button class="btn btn-primary">Go</button>
+    <br>
+    <br>
+
+</form>
+
+<?php foreach ($messages as $message):?>
+<div >
+    <p class="badge badge-success">Comment added by  <?=$message->getUserName();?> </p>
+    <p class="comment" ><?=$message->getMessage();?></p>
+</div>
+
+
+
+
+    <form method='post'>
+        <p>Rating:<?=$message->getRating()?></p>
+        <button type="submit" class="btn btn-primary" name="rating" value="+1,<?=$message->getFeedback_id()?>,<?=$message->getUserId()?>">+</button>
+        <button type="submit" class="btn btn-primary" name="rating" value="-1,<?=$message->getFeedback_id()?>,<?=$message->getUserId()?>">-</button>
+        <br>
+        <br>
+    </form>
+    <br>
+
+
+<?php endforeach;?>
+
+
+

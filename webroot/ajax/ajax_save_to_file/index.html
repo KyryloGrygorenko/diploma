@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="scripts.js"></script>
+</head>
+<body>
+
+<textarea id="textField" name="text"></textarea> <br/>
+<input onclick="updateFile(document.getElementById('textField'));" type="button" id="btn" value="Go"/>
+
+<script>
+
+    request = getXMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            alert(request.responseText);
+        }
+    };
+
+    function updateFile(obj)
+    {
+        params = obj.name + '=' + obj.value;
+
+        request.open('POST', 'test.php', true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send(params);
+    }
+
+</script>
+
+</body>
+</html>

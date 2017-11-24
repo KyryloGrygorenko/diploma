@@ -1,0 +1,151 @@
+
+<h1><?php echo $categories_names[$category_id-1];?></h1>
+<hr>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <?php foreach ($pagination->buttons as $button) :?> 
+        <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+            <?php if ($button->isActive) : ?>
+
+                <a href="/?page=<?=$button->page?>&amp;category_id=<?=$category_id?>"><?=$button->text?></a>
+            <?php else : ?>
+                <span aria-hidden="true"><?=$button->text?></span>
+            <?php endif ?>
+        </li>
+    <?php endforeach ?>  
+  </ul>
+</nav>
+
+
+<div class="row" id='js-books'>
+    <div class="col-sm-6 col-md-4" style='display:none' id='js-book-item-tpl'>
+      <div class="thumbnail book-item">
+        <img src=" alt="">
+        <div class="caption">
+          <h3></h3>
+          <p></p>
+          <p>
+              <a href="#" class="btn btn-primary" role="button">Read this article</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    
+    <?php foreach ($articles as $article) : ?>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail book-item">
+
+
+            <?php if(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$article->getImg() . '.jpg' )){ ?>
+
+                <img src="/img/<?=$category_id;?>/<?=$article->getImg();?>.jpg" alt="">
+            <?php } elseif(file_exists(WEBROOT . 'img' .DS  .$category_id .  DS .$article->getImg(). '.jpeg' )){ ?>
+            <img src="/img/<?=$category_id;?>/<?=$article->getImg();?>.jpeg" alt="">
+            <?php } else{?>
+                <img src="/img/<?=$category_id;?>/default.jpeg" alt="">
+                <img src="/img/<?=$category_id;?>/default.jpg" alt="">
+            <?php } ?>
+
+
+          <div class="caption">
+            <h3><?=$article->getTitle();?></h3>
+            <p>
+                <a href="/articles/?article_id=<?=$article->getId();?>&amp;category_id=<?=$category_id?>" class="btn btn-primary" role="button">Read this article</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    <?php endforeach ?>
+    
+</div>
+
+<button type='button' class='btn btn-lg btn-primary' id='js-load-books' data-offset='10' data-count='10'>Load more books</button>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <?php foreach ($pagination->buttons as $button) :?> 
+        <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+            <?php if ($button->isActive) : ?>
+                <a href="/?page=<?=$button->page?>&amp;category_id=<?=$category_id?>"><?=$button->text?></a>
+            <?php else : ?>
+                <span aria-hidden="true"><?=$button->text?></span>
+            <?php endif ?>
+        </li>
+    <?php endforeach ?>  
+  </ul>
+</nav>
+
+
+<script>
+  $(document).ready(function() {
+      $(document).on('click', '.js-add-to-cart',function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        $.get('/api/cart/add/' + id, function() {
+          alert('Book ' + id + ' added');
+        });
+      });
+    
+      var $loadBtn = $('#js-load-books');
+      var url = '/api/books?count=' + $loadBtn.data('count') + '&offset=';
+    
+      // handlers for handling different response status codes
+      function handleSuccess(response) {
+          var books = response.data;
+          var key;
+          var $bookItemTpl = $('#js-book-item-tpl'); 
+          var $books = $('#js-books');
+          var $caption, $link, linkHref;
+          
+          for (key in books) {
+            var book = books[key];
+            var $bookItem =  $bookItemTpl.clone();
+            $caption = $bookItem.find('div.caption')
+            $caption.find('h3').first().text(book.title);
+            $caption.find('p').first().text(book.description);
+            $link = $caption.find('a').last();
+            linkHref = $link.attr('href');
+            $link.attr('href', linkHref + book.id);
+            $link.data('id', book.id);
+            
+            $bookItem.fadeIn();
+            $books.append($bookItem);
+          }
+          
+          var offset = parseInt($loadBtn.data('offset'));
+          offset += parseInt($loadBtn.data('count'));
+          $loadBtn.data('offset', offset);
+          
+          console.log('success', response);
+      }
+      
+      function handleFail(res) {
+          // todo
+          // var msg = JSON.parse(res.responseText);
+          // $messageBox.html('<b>Save failed! ' + msg.data + '</b>');
+          console.log('fail');
+      }
+     
+      $loadBtn.click(function() {
+        var offset = $loadBtn.data('offset');
+        
+        $.ajax({
+          type: 'GET',
+          url: url + offset , // todo: how to not hardcode URL?
+          statusCode: {
+              200: handleSuccess,
+              404: handleFail,
+              500: handleFail
+          }
+        }).always(function() {
+            // $spinner.hide();
+            console.log('always');
+        });
+    });
+ });
+
+  
+</script>  
+

@@ -1,0 +1,41 @@
+
+
+<br>
+<br>
+<br>
+
+<table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;">
+
+    <thead>
+    <tr>
+        <th>Feedback author</th>
+        <th>Feedback text ( You can edit the text or approve it as it is)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($FeedbacksToBeApproved as $Feedback) : ?>
+            <tr>
+                <td><?=$Feedback->getAuthor()?></td>
+                <form method='post'>
+                    <td>
+                        <textarea type="text" name="feedback_message" value="<?=$Feedback->getMessage()?>" class="form-control"><?=$Feedback->getMessage()?></textarea>
+                    </td>
+
+                    <td>
+                    <input name="id" type="hidden"  value="<?=$Feedback->getId()?>">
+                    <button type="submit" class="btn btn-success btn-sm" aria-label="Left Align" name="approve">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true">APPROVE</span>
+                    </button>
+
+                    <button type="submit" class="btn btn-danger btn-sm" aria-label="Right Align" name="delete">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"> DELETE</span>
+                    </button>
+                    </td>
+
+                </form>
+            </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+

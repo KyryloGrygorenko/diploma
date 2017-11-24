@@ -1,0 +1,74 @@
+<script src="jquery-1.7.1.min.js"></script>
+<script>
+    function selectChange(val) {
+        //Set the value of action in action attribute of form element.
+        //Submit the form
+        $('#myForm').submit();
+    }
+</script>
+
+
+<h3>Manage articles</h3>
+<div class="row">
+    <h1>Chose category:</h1>
+    <form id="myForm" method='post'>
+        <select onChange=selectChange(this.value) class="form-control" name="category_name" value="">
+
+            <?php if(!$category_name || $category_name == ' '){?>
+           <option selected hidden> </option>
+            <?php }else{}?>
+
+            <?php foreach ($categories_names as $categories_name) {
+                   if ($category_name == $categories_name) { ?>
+                       <option selected><?= $category_name; ?> </option>
+                   <?php } else {
+                       ?>
+                       <option><?= $categories_name; ?></option>
+                       <?php
+                   }
+           }?>
+
+
+        </select>
+    </form>
+
+
+    <?php
+    if($articles_by_category !== ' ') {?>
+
+    <table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;">
+        <thead>
+        <tr>
+            <th>Article Title</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+       <?php foreach ($articles_by_category as $article_by_category) { ?>
+            <tr>
+                <form method='post'>
+                    <td class="form-control"><?= $article_by_category->getTitle(); ?> </td>
+                    <input name="article_id" type="hidden" value="<?=$article_by_category->getId(); ?>">
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm" aria-label="Left Align" name="edit"
+                                value="true">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"> EDIT</span>
+                        </button>
+
+                        <button type="submit" class="btn btn-danger btn-sm" aria-label="Right Align" name="delete"
+                                value="true">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"> DELETE</span>
+                        </button>
+                    </td>
+                </form>
+            </tr>
+        <?php
+        }
+    }?>
+
+</table>
+
+    </tbody>
+
+

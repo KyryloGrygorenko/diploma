@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+      <link href="/css/jquery.bxslider.css" rel="stylesheet" />
+      <link href="/css/bootstrap.min.css" rel="stylesheet">
+      <link href="/css/style.css" rel="stylesheet">
+      <link href="/css/window_close.css" rel="stylesheet">
+      <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+      <title>TrueNews</title>
+  </head>
+
+  <body>
+
+  <div class="modalInner">
+      <section class="offer">
+          <h2>Подпишитесь на новостную рассылку с доступом к аналитике</h2>
+          <p>
+          <form method='post'>
+              <input type="name" name="name" value="Имя, Фамилия"/ >
+              <input type="email" name="email" value="Ваш имейл"/>
+              <input type="submit" value="Submit"/>
+          </form>
+          </p>
+      </section>
+  </div>
+
+<?php $color='black';?>
+  <nav class="navbar navbar-inverse navbar-fixed-top" id="header">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                 <li><a href="/" class="glyphicon glyphicon-home"> Home</a></li>
+                  <?php foreach($categories_names as $categories_name):
+                      $category_num= isset($category_num)?$category_num:1;?>
+                      <li ><a href="/main?category_id=<?=$category_num?>"><?=$categories_name?></li></a>
+                      <?php $category_num=$category_num+1;?>
+                  <?php endforeach;?>
+                  <li><a class="dropdown-item" href="/analytics">Analytics</a></li>
+                  <li> <a class="dropdown-item" href="/article_filter/">Article Filter</a></li>
+                  <li>
+                          <a id="dLabel" role="button" data-toggle="dropdown"  data-target="#" href="#">
+                              Top Feedbackers <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                              <?php foreach ($top5FeedbackAuthors as $FeedbackAuthor) : ?>
+                                  <li id="custom_li"><a href="/feedbacker/?user_id=<?=$FeedbackAuthor->getUserId();?>"><?=$FeedbackAuthor->getUserName().' '.$FeedbackAuthor->getFeedbackCount()?></a></li>
+                              <?php endforeach;?>
+                              <li class="divider"></li>
+                              <li class="dropdown-submenu">
+                                  <a tabindex="-1" href="#">more</a>
+                                  <ul class="dropdown-menu">
+                                      <li><a tabindex="-1" href="#">Second level</a></li>
+                                      <li class="dropdown-submenu">
+                                          <a href="#">Even More..</a>
+                                          <ul class="dropdown-menu">
+                                              <li><a href="#">3rd level</a></li>
+                                          </ul>
+                                      </li>
+                                      <li><a href="#">Second level</a></li>
+                                  </ul>
+                              </li>
+                          </ul>
+                  </li>
+                  <li>
+                          <a id="dLabel" role="button" data-toggle="dropdown"  data-target="#" href="#">
+                              Top Articles <span class="caret"></span>
+                          </a>
+                          <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                              <?php foreach ($topArticles as $topArticle) : ?>
+                                  <li id="custom_li"><a href="/articles/?article_id=<?=$topArticle->getId();?>&amp;category_id=<?=$topArticle->getCategoryId()?>"><?=$topArticle->getTitle()?></a></li>
+                              <?php endforeach;?>
+                              <li class="divider"></li>
+                              <li class="dropdown-submenu">
+                                  <a tabindex="-1" href="#">more</a>
+                                  <ul class="dropdown-menu">
+                                      <li><a tabindex="-1" href="#">Second level</a></li>
+                                      <li class="dropdown-submenu">
+                                          <a href="#">Even More..</a>
+                                          <ul class="dropdown-menu">
+                                              <li><a href="#">3rd level</a></li>
+                                          </ul>
+                                      </li>
+                                      <li><a href="#">Second level</a></li>
+                                  </ul>
+                              </li>
+                          </ul>
+                  </li>
+
+                  <?php if (\Library\Session::has('user')) : ?>
+                      <li><a href="/logout">Logout (<?=\Library\Session::get('user')?>)</a></li>
+                  <?php else: ?>
+                      <li><a href="/login">Login</a></li>
+                  <?php endif ?>
+                  <form method='post'>
+                          <select class="form-control" name="search">
+                          <option value="" disabled>Tags</option>
+                              <?php foreach ($all_tags as $tag):?>
+                                  <option value="<?=$tag?>"  ><?=$tag?></option>
+                              <?php endforeach;?>
+                      </select>
+                      <p><input type="submit" value="search by #Tag"></p>
+                  </form>
+              </ul>
+          </div><!--/.nav-collapse -->
+      </div>
+  </nav>
+
+  <div  id="content-container">
+      <div class="row" style="margin: 0px;  ">
+          <div class="col-sm-2">
+              <a  href="http://<?=$left_banner->getLink()?>">
+              <div   style= "background-image: url('<?=$left_banner->getImg()?>'); height: 600px; width: 160px; float: left; ">
+                      <h2 id="ad-left" style="margin: 15px">Цена 1500грн</h2>
+              </div>
+              </a>
+          </div>
+
+
+          <div class="col-sm-8 starter-template">
+                          <?=\Library\Session::getFlash()?>
+                          <?=$content ?>
+
+<!--              <iframe width="560" height="315" src="https://www.youtube.com/embed/gI3l_xsrpHQ?autoplay=1&amp;loop=1&amp;&amp;" frameborder="0" allowfullscreen></iframe>-->
+<!--              <iframe width="560" height="315" src="https://www.youtube.com/embed/Rs_wFbECVws?autoplay=1&amp;loop=1&amp;&amp;" frameborder="0" allowfullscreen></iframe>-->
+          </div>
+          <div class="col-sm-2">
+              <a  href="http://<?=$right_banner->getLink()?>">
+                  <div   style= "background-image: url('<?=$right_banner->getImg()?>'); height: 600px; width: 160px; float: right; ">
+                      <h2 id="ad-right" style="margin: 15px">Цена 1500грн</h2>
+                  </div>
+              </a>
+          </div>
+
+      </div>
+  </div>
+
+  <div class="exitblock">
+      <div class="fon"></div>
+      <div class="modaltext">
+          Вы действительно хотите покинуть сайт?
+      </div>
+      <div class="closeblock">+</div>
+  </div>
+
+
+</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="/js/advertise.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<!--  //Offer to sign up for subscription _START_-->
+   <link rel="stylesheet" href="libs/arcticmodal/jquery.arcticmodal.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="//yandex.st/jquery/cookie/1.0/jquery.cookie.min.js"></script>
+  <script src="libs/arcticmodal/config.js"></script>
+  <script src="libs/arcticmodal/jquery.arcticmodal.js"></script>
+<!--  //Offer to sign up for subscription _END_-->
+
+<!--  //Confirmation on attempt to leave the site _START_-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="/js/jquery.bxslider.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/js/onclose.js"></script>
+    <!--  <script src="/js/onclose2.js"></script>-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!--  //Confirmation on attempt to leave the site _END_-->
+
+  <script src="libs/arcticmodal/jquery.arcticmodal.js"></script>
+  <link rel="stylesheet" href="libs/arcticmodal/jquery.arcticmodal.css">
+  <link rel="stylesheet" href="libs/arcticmodal/themes/simple.css">
+  <script src="//yandex.st/jquery/cookie/1.0/jquery.cookie.min.js"></script>
+  <script src="libs/arcticmodal/config.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+  <script>
+      $('select').select2();
+  </script>
+
+  </body>
+</html>
+
+

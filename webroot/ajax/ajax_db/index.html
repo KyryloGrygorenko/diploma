@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="scripts.js"></script>
+</head>
+<body>
+
+Check console log.
+
+<script>
+
+    request = getXMLHttpRequest();
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            responseBody = request.responseText;
+
+            data = JSON.parse(responseBody);
+
+            if (data['status'] == 'Success') {
+                for (key in data['msg_info']) {
+                    document.write(key + ': ');
+                    document.write(data['msg_info'][key]);
+                    document.write('<br>');
+                }
+            } else {
+                document.write(data['status']);
+            }
+
+            window.stop();
+        }
+    };
+
+    request.open('GET', 'test.php', true);
+    request.send(null);
+
+</script>
+
+</body>
+</html>

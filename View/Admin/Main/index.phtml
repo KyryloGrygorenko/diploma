@@ -1,0 +1,57 @@
+
+
+
+<h3>Manage categories</h3>
+<table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;">
+    <thead>
+    <tr>
+        <th>Category name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($categories_names as $categories_name) : ?>
+
+        <tr>
+            <form method='post'>
+
+                <td><input type="text" name="category_name" value="<?=$categories_name?>" class="form-control"/></td>
+                <input name="base_category_name" type="hidden"  value="<?=$categories_name?>">
+                <td>
+
+                        <button type="submit" class="btn btn-primary btn-sm" aria-label="Left Align" name="edit" value="true"  >
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"> EDIT</span>
+                        </button>
+
+                        <button type="submit" class="btn btn-danger btn-sm" aria-label="Right Align" name="delete"  value="true" >
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"> DELETE</span>
+                        </button>
+
+
+                </td>
+            </form>
+        </tr>
+    <?php endforeach ?>
+</table>
+<table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;">
+    <h3>Add new category:</h3>
+    <tr>
+            <div class="row">
+                <form method='post' >
+
+                    <td >
+
+                        <input type="text" name="new_category_name" value="" class="form-control" / >
+                    </td>
+                    <td>
+                    <button type="submit" class="btn btn-success btn-sm" aria-label="Left Align" name="edit" value="Add"  >
+                        <span class="glyphicon glyphicon-download" aria-hidden="true"> ADD </span>
+                    </button>
+                    </td>
+                </form>
+            </div>
+
+    </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+<body>
+
+<h1>Messages list</h1><a href="form.html">Go to contact form</a>
+<hr/>
+
+
+<div id="list"></div>
+
+<script>
+    $(document).ready(function() {
+        $.get('get.php').done(function(data) {
+
+            data = JSON.parse(data);
+            msg_info = data.msg_info;
+            status = data.status;
+
+            if (status == 'Success') {
+                $.each(msg_info, function(key, object) {
+                    $.each(object, function(field, value) {
+                        $('#list').append(field + ':' + value + '<br>');
+                    });
+                    $('#list').append('<hr>');
+                });
+            } else {
+                $('#list').append('Fail');
+            }
+
+
+        });
+    });
+
+</script>
+
+</body>
+</html>

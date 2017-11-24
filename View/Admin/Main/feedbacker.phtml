@@ -1,0 +1,54 @@
+
+<h1>All Comments by <?=$allFeedbackByAuthor[0]->getAuthor();?> </h1>
+
+<?php //dump($allFeedbackByAuthor[0]->getUserId());?>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <?php foreach ($pagination->buttons as $button) :?>
+            <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+                <?php if ($button->isActive) : ?>
+                    <a href="/feedbacker/?page=<?=$button->page?>&amp;user_id=<?=$allFeedbackByAuthor[0]->getUserId();?>"><?=$button->text?></a>
+                <?php else : ?>
+                    <span aria-hidden="true"><?=$button->text?></span>
+                <?php endif ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</nav>
+
+
+<div class="row" id='js-books'>
+    <?php foreach ($comments as $comment) : ?>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail book-item">
+
+                <div class="caption">
+                    <p class="comment"><?=$comment->getMessage();?></p>
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+
+</div>
+
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <?php foreach ($pagination->buttons as $button) :?>
+            <li <?=$button->isActive ? '' : 'class="disabled"' ?> >
+                <?php if ($button->isActive) : ?>
+                    <a href="/feedbacker/?page=<?=$button->page?>&amp;user_id=<?=$allFeedbackByAuthor[0]->getUserId();?>"><?=$button->text?></a>
+                <?php else : ?>
+                    <span aria-hidden="true"><?=$button->text?></span>
+                <?php endif ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</nav>
+
+
+
+
+

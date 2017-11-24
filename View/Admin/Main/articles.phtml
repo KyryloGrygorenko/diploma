@@ -1,0 +1,67 @@
+<table class="table table-striped books-list-table" style="margin: 50px auto; padding: 10px;"
+       xmlns="http://www.w3.org/1999/html">
+    <tr>
+        <td>
+            <div class="row">
+                <h1>Add new article:</h1>
+                <form method='post'>
+                    Article title
+                    <input type="text" name="article_title" value=""  class="form-control"/>
+                    <br>
+                    Article Text
+                    <textarea name="article_text" value="" class="form-control" ></textarea>
+                    <br>
+                    Category
+                    <select class="form-control" name="article_category_id" value="">
+                        <?php foreach ($categories_names_ids as $categories_names_id):?>
+                            <option><?=$categories_names_id->getCategoryId();?> <?=$categories_names_id->getCategoryName();?></option>
+                        <?php endforeach;?>
+                    </select>
+                    <br>
+                    tags (please use space between tags)
+                    <input type="text" name="article_tags" value="" class="form-control"/>
+                    <br>
+                    Img
+                    <select class="form-control" name="img" value="">
+                        <?php for($i=1;$i<=25;$i++):?>
+                            <option><?=$i?></option>
+                        <?php endfor;?>
+                    </select>
+                    <br>
+                    Article analytic text
+                    <textarea name="article_analytics" value="" class="form-control" ></textarea>
+                    <button type="submit">Add article</button>
+
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<!--    --><?php //dump($articles); ?>
+<thead>
+<tr>
+    <th>Article title</th>
+    <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+    <?php foreach ($articles as $article) : ?>
+        <tr>
+            <td></td>
+            <td>
+                <?=$article->getTitle() ?>
+                <form method="post">
+                    <button type="submit" class="btn btn-danger btn-sm" aria-label="Left Align" name="delete" value="<?=$categories_name?>">
+                  <span class="glyphicon glyphicon-trash" aria-hidden="true">
+                    </button>
+                </form>
+            </td>
+        </tr>
+    <?php endforeach ?>
+<!---->
+<!--//INSERT INTO `articles` (`id`, `title`, `text`, `category_id`, `tags`, `img`, `analytics`,`article_views_count`, `image_id`, `date`)-->
+<!--VALUES (NULL, 'News title 1', 'some text some text some text', '1', 'Politics economy', '1', 'analytics...', '35', NULL, '2017-10-09 07:14:25');-->
+

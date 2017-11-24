@@ -1,0 +1,6 @@
+<db>
+    <dbhost>localhost</dbhost>
+    <dbuser>root</dbuser>
+    <dbpass/>
+    <dbname>diploma</dbname>
+</db>

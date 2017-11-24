@@ -1,0 +1,105 @@
+<h1>Feedback</h1>
+
+<div id='message'></div>
+
+<form method='post' id='feedback-form'>
+    <input class="form-control" type="text" name="author" value="<?=$form->author ?>"/><br>
+    <input class="form-control"  type="email" name="email" value="<?=$form->email ?>"/><br>
+    <textarea class="form-control"  name="message"><?=$form->message ?></textarea><br>
+    <button class="btn btn-primary">Go</button>
+
+</form>
+<div class='ajax-spinner' style='display:none; margin: 0px auto; height: 50px; width: 50px; background: url(/img/ajax-loader.gif); background-repeat: no-repeat; background-size: 33%'> </div>
+
+
+<script>
+    $(document).ready(function() {
+
+        // handlers for handling different response status codes
+        function handleSuccess(data) {
+            $form.fadeOut(function() {
+                $messageBox.html('<b>Sent!</b>');
+            });
+
+            console.log('success', data);
+        }
+
+        function handleFail(res) {
+            var msg = JSON.parse(res.responseText);
+            $messageBox.html('<b>Save failed! ' + msg.data + '</b>');
+            console.log('fail', res.responseText);
+        }
+
+        // jqeury objects
+        var $form = $('#feedback-form');
+        var $messageBox = $('#message');
+        var $spinner = $('.ajax-spinner');
+
+        // submit handler
+        $form.on('submit', function(event) {
+            // we dont want to submit as usual
+            event.preventDefault();
+
+            // check if form is valid - no ajax
+            var formIsValid = true;
+            $messageBox.empty();
+            $form.find('input, textarea').each(function(index, element){
+                console.log(element);
+                if (element.value == '') {
+                    var $b = $('<b>Fill the fields<b>');
+
+                    $b.click(function() {
+                        $(this).fadeOut();
+                    });
+
+                    $messageBox.html($b);
+                    formIsValid = false;
+                }
+            });
+
+            if (!formIsValid) {
+                return false;
+            }
+
+
+            // if we got there - we can run ajax request
+            $spinner.show();
+
+            var postParams = $form.serialize();
+            console.log('sending', postParams);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/feedback', // todo: how to not hardcode URL?
+                data: postParams,
+                statusCode: {
+                    200: handleSuccess,
+                    201: handleSuccess,
+                    400: handleFail,
+                    500: handleFail
+                }
+            }).always(function() {
+                $spinner.hide();
+                console.log('always');
+            });
+
+
+
+
+            // $.post('/api/feedback', postParams)
+            //     .success(function(body) {
+
+            //     })
+            //     .fail(function(res) {
+            //         $messageBox.html('<b>Save failed!</b>');
+            //         console.log('fail', res.responseText);
+            //     })
+            //     .always(function() {
+            //         $spinner.hide();
+            //         console.log('always');
+            //     });
+
+
+        })
+    });
+</script>
